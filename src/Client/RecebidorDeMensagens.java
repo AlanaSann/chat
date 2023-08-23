@@ -34,6 +34,9 @@ public class RecebidorDeMensagens implements Runnable {
             String mensagem = leitor.readLine();
             System.out.println("Mensagem do cliente " + mensagem);
             textArea.setText(textArea.getText() + mensagem + " " + client.getInetAddress().getHostAddress() + "\n");
+            Socket conection = new Socket(client.getInetAddress().getHostAddress(), 4321);
+            PrintWriter escritor = new PrintWriter(conection.getOutputStream(), true);
+            escritor.println(mensagem);
             client.close();
         } catch (Exception e) {
             System.out.println("erro ai");

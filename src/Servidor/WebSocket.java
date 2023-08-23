@@ -11,7 +11,6 @@ public class WebSocket implements Runnable {
 
 	private static final int serverport = 8080;
 	private static ServerSocket server;
-	private static HashMap<String, Socket> clients = new HashMap<String, Socket>();
 
 	public WebSocket(JTextArea campoDeTexto) throws IOException {
 		if (server == null) {
@@ -24,12 +23,12 @@ public class WebSocket implements Runnable {
 		System.out.println("Servidor na porta: " + server.getLocalPort());
 		while (true) {
 			try (Socket client = server.accept()) {
-				Requests requests = new Requests(client, clients);
+				Requests requests = new Requests(client);
 				requests.run();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println(clients.size());
+			System.out.println();
 		}
 	}
 }

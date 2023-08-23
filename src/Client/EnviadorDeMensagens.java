@@ -23,11 +23,11 @@ public class EnviadorDeMensagens implements Runnable {
 
 	public void enviaMensagem() throws IOException {
 		BufferedReader leitor;
-		leitor = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		// leitor = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter escritor = new PrintWriter(socket.getOutputStream(), true);
 		escritor.println(mensagem);
 		String retorno;
-		retorno = leitor.readLine();
+		// retorno = leitor.readLine();
 		System.out.println(mensagem);
 		socket.close();
 	}
@@ -37,6 +37,7 @@ public class EnviadorDeMensagens implements Runnable {
 		try {
 			this.enviaMensagem();
 		} catch (IOException e) {
+			System.out.println(e.toString());
 			e.printStackTrace();
 		}
 	}
