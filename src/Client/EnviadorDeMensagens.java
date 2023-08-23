@@ -27,11 +27,9 @@ public class EnviadorDeMensagens implements Runnable {
 		PrintWriter escritor = new PrintWriter(socket.getOutputStream(), true);
 		escritor.println(mensagem);
 		String retorno;
-		while (true) {
-			retorno = leitor.readLine();
-		}
-		// System.out.println(mensagem);
-		// socket.close();
+		retorno = leitor.readLine();
+		System.out.println(mensagem);
+		socket.close();
 	}
 
 	@Override
