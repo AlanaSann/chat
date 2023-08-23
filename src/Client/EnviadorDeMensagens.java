@@ -24,8 +24,11 @@ public class EnviadorDeMensagens implements Runnable {
 		leitor = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter escritor = new PrintWriter(socket.getOutputStream(), true);
 		escritor.println("Estou conectando");
-		String mensagem = leitor.readLine();
-		System.out.println(mensagem);
+		String mensagem;
+		while (true) {
+			mensagem = leitor.readLine();
+		}
+		// System.out.println(mensagem);
 		// socket.close();
 	}
 

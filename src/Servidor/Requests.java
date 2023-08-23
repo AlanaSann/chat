@@ -22,6 +22,8 @@ public class Requests implements Runnable {
         if (!clients.containsKey(client.getInetAddress().getCanonicalHostName())) {
             client.setKeepAlive(true);
             clients.put(client.getInetAddress().getCanonicalHostName(), client);
+        } else {
+            clients.put(client.getInetAddress().getCanonicalHostName(), client);
         }
         remetente = client;
         this.campoDeTexto = campoDeTexto;
@@ -35,12 +37,15 @@ public class Requests implements Runnable {
             String mensagem = leitor.readLine();
             System.out.println("Mensagem do cliente " + mensagem);
             for (Map.Entry<String, Socket> pair : clients.entrySet()) {
-                System.out.println(pair.getValue().isConnected());
-                // System.out.println(pair.getValue().getKeepAlive());
-                PrintWriter escritor = new PrintWriter(pair.getValue().getOutputStream(), true);
+                System.out.println(pair.getValue());
+                System.out.println(pair.getValue().getInetAddress().getHostAddress());
+                System.out.println(pair.getValue().getPort());
+                PrintWriter escritor = new PrintWriter(pair.getValue().getOutputStream(),
+                        true);
                 escritor.println(mensagem);
             }
-            campoDeTexto.setText(mensagem + remetente.getInetAddress().getHostAddress());
+            campoDeTexto
+                    .setText(campoDeTexto.getText() + mensagem + remetente.getInetAddress().getHostAddress() + "\n");
             // escritor.println("A mensagem: " + mensagem + ", foi recebida");
         } catch (IOException e) {
             e.printStackTrace();

@@ -21,18 +21,6 @@ public class WebSocket implements Runnable {
 		this.campoDeTexto = campoDeTexto;
 	}
 
-	/*
-	 * public static void main(String[] args) throws Exception {
-	 * 
-	 * System.out.println("Servidor na porta: " + server.getLocalPort());
-	 * while (true) {
-	 * Socket client = server.accept();
-	 * Requests requests = new Requests(client);
-	 * requests.run();
-	 * }
-	 * }
-	 */
-
 	@Override
 	public void run() {
 		System.out.println("Servidor na porta: " + server.getLocalPort());
