@@ -6,4 +6,5 @@
  *
  */
 module Messager {
+    requires java.desktop;
 }
