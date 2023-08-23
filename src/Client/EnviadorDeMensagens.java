@@ -12,10 +12,12 @@ public class EnviadorDeMensagens implements Runnable {
 	private String endereco;
 	private int port;
 	private Socket socket;
+	private String mensagem;
 
-	public EnviadorDeMensagens(String endereco, int port) throws UnknownHostException, IOException {
+	public EnviadorDeMensagens(String endereco, int port, String mensagem) throws UnknownHostException, IOException {
 		this.endereco = endereco;
 		this.port = port;
+		this.mensagem = mensagem;
 		this.socket = new Socket(this.endereco, this.port);
 	}
 
@@ -23,10 +25,10 @@ public class EnviadorDeMensagens implements Runnable {
 		BufferedReader leitor;
 		leitor = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		PrintWriter escritor = new PrintWriter(socket.getOutputStream(), true);
-		escritor.println("Estou conectando");
-		String mensagem;
+		escritor.println(mensagem);
+		String retorno;
 		while (true) {
-			mensagem = leitor.readLine();
+			retorno = leitor.readLine();
 		}
 		// System.out.println(mensagem);
 		// socket.close();
