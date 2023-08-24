@@ -3,7 +3,6 @@ package Servidor;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 
 import javax.swing.JTextArea;
 
@@ -14,7 +13,7 @@ public class WebSocket implements Runnable {
 
 	public WebSocket(JTextArea campoDeTexto) throws IOException {
 		if (server == null) {
-			this.server = new ServerSocket(serverport);
+			WebSocket.server = new ServerSocket(serverport);
 		}
 	}
 

@@ -1,14 +1,11 @@
 package view;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-
 import Client.EnviadorDeMensagens;
-import Client.RecebidorDeMensagens;
+import Client.RecebedorDeMensagens;
 import Servidor.WebSocket;
-
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -26,7 +23,7 @@ public class viewMesseger {
 	private Thread threadServidor;
 	private Thread threadSender;
 	private Thread threadRecebedor;
-	private RecebidorDeMensagens recebedor;
+	private RecebedorDeMensagens recebedor;
 	private WebSocket webSocket;
 
 	/**
@@ -110,17 +107,19 @@ public class viewMesseger {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					EnviadorDeMensagens enviadorDeMensagens = new EnviadorDeMensagens(textIP.getText(),
-							Integer.parseInt(textPorta.getText()), textMensagem.getText());
+							Integer.parseInt(textPorta.getText()),
+							"Nome: " + textNome.getText() + " " + textMensagem.getText());
 					threadSender = new Thread(enviadorDeMensagens);
 					threadSender.start();
 				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 			}
 		});
 		webSocket = new WebSocket(textArea);
 		threadServidor = new Thread(webSocket);
 		threadServidor.start();
-		recebedor = new RecebidorDeMensagens(textArea);
+		recebedor = new RecebedorDeMensagens(textArea);
 		threadRecebedor = new Thread(recebedor);
 		threadRecebedor.start();
 		btnEnviar.setBounds(327, 374, 89, 23);

@@ -9,8 +9,6 @@ import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JTextArea;
-
 public class Requests implements Runnable {
 
     private static HashMap<String, Socket> clients;
@@ -29,20 +27,22 @@ public class Requests implements Runnable {
 
     @Override
     public void run() {
-        // System.out.println("Cliente " + remetente.getInetAddress().getHostAddress() +
-        // " conectado");
         try (BufferedReader leitor = new BufferedReader(new InputStreamReader(remetente.getInputStream()))) {
-            // PrintWriter escritor = new PrintWriter(remetente.getOutputStream(), true);
             String mensagem = leitor.readLine();
-            // System.out.println("Mensagem do cliente " + mensagem);
             for (Map.Entry<String, Socket> pair : clients.entrySet()) {
-                Socket conection = new Socket(pair.getValue().getInetAddress().getHostAddress(), 4321);
-                PrintWriter escritor = new PrintWriter(conection.getOutputStream(), true);
-                escritor.println(mensagem);
+                try (Socket conection = new Socket(pair.getValue().getInetAddress().getHostAddress(), 4321);) {
+                    PrintWriter escritor = new PrintWriter(conection.getOutputStream(), true);
+                    System.out.println("Reenviando mensagem: " + mensagem + " para" + pair.getValue().getInetAddress());
+                    escritor.println(mensagem);
+                } catch (Exception e) {
+                    System.out.println(clients.size());
+                    clients.remove(pair.getKey());
+                    System.out.println(clients.size());
+                }
             }
             System.out.println(clients.size());
-            // escritor.println("A mensagem: " + mensagem + ", foi recebida");
         } catch (IOException e) {
+
             e.printStackTrace();
         }
     }
