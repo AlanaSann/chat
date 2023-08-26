@@ -1,13 +1,11 @@
 package view;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-
 import Client.EnviadorDeMensagens;
+import Client.RecebedorDeMensagens;
 import Servidor.WebSocket;
-
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -21,8 +19,11 @@ public class viewMesseger {
 	private JTextField textMensagem;
 	private JTextField textIP;
 	private JTextField textNome;
+	private JTextField textPorta;
 	private Thread threadServidor;
 	private Thread threadSender;
+	private Thread threadRecebedor;
+	private RecebedorDeMensagens recebedor;
 	private WebSocket webSocket;
 
 	/**
@@ -87,6 +88,15 @@ public class viewMesseger {
 		lbNome.setBounds(10, 306, 46, 14);
 		frame.getContentPane().add(lbNome);
 
+		textPorta = new JTextField();
+		textPorta.setBounds(470, 247, 184, 20);
+		frame.getContentPane().add(textPorta);
+		textPorta.setColumns(10);
+
+		JLabel lbPorta = new JLabel("Porta:");
+		lbPorta.setBounds(436, 250, 37, 14);
+		frame.getContentPane().add(lbPorta);
+
 		textNome = new JTextField();
 		textNome.setColumns(10);
 		textNome.setBounds(77, 303, 339, 20);
@@ -96,16 +106,22 @@ public class viewMesseger {
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					EnviadorDeMensagens enviadorDeMensagens = new EnviadorDeMensagens("localhost", 8080);
+					EnviadorDeMensagens enviadorDeMensagens = new EnviadorDeMensagens(textIP.getText(),
+							Integer.parseInt(textPorta.getText()),
+							"Nome: " + textNome.getText() + " " + textMensagem.getText());
 					threadSender = new Thread(enviadorDeMensagens);
 					threadSender.start();
 				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 			}
 		});
 		webSocket = new WebSocket(textArea);
 		threadServidor = new Thread(webSocket);
 		threadServidor.start();
+		recebedor = new RecebedorDeMensagens(textArea);
+		threadRecebedor = new Thread(recebedor);
+		threadRecebedor.start();
 		btnEnviar.setBounds(327, 374, 89, 23);
 		frame.getContentPane().add(btnEnviar);
 	}
