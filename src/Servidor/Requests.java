@@ -46,7 +46,7 @@ public class Requests implements Runnable {
         try (Socket conection = new Socket(socketDeUmUsuario.getInetAddress().getHostAddress(), 4321);) {
             PrintWriter escritor = new PrintWriter(conection.getOutputStream(), true);
             System.out.println(
-                    "Reenviando mensagem: " + mensagem + " para" + socketDeUmUsuario.getInetAddress());
+                    "Reenviando mensagem: " + mensagem + " para: " + socketDeUmUsuario.getInetAddress());
             escritor.println(mensagem);
         } catch (Exception e) {
             System.out.println(clients.size());

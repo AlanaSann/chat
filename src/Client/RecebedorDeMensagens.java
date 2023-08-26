@@ -20,13 +20,13 @@ public class RecebedorDeMensagens implements Runnable {
         RecebedorDeMensagens.textArea = textArea;
     }
 
-    public void esperandoReceber() {
+    public void emAguardoDeMensagens() {
         try {
             Socket client = server.accept();
             System.out.println("Cliente " + client.getInetAddress().getHostAddress() + " conectado");
             BufferedReader leitor = new BufferedReader(new InputStreamReader(client.getInputStream()));
             String mensagem = leitor.readLine();
-            System.out.println("Mensagem do cliente " + mensagem);
+            System.out.println("Mensagem Recebida " + mensagem);
             textArea.setText(textArea.getText() + mensagem + " " + client.getInetAddress().getHostAddress() + "\n");
             client.close();
         } catch (Exception e) {
@@ -38,7 +38,7 @@ public class RecebedorDeMensagens implements Runnable {
     public void run() {
         System.out.println("Recebendo na porta: " + server.getLocalPort());
         while (true) {
-            esperandoReceber();
+            this.emAguardoDeMensagens();
         }
     }
 
